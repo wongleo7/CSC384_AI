@@ -1,0 +1,112 @@
+START!
+Move Number, 1
+problem, 13 , total tree depth, 7
+1 , 125 , 372
+2 , 452 , 250
+3 , 751 , 1561
+4 , 1711 , 943
+5 , 2641 , 4138
+6 , 4120 , 0
+Time elapsed, 19.486882925
+
+Move Number, 2
+_______________________________
+O|  | X|  |  |
+ | X| O| O|  |
+ |  | X| O|  |
+X|  | X| O|  |
+ | X|  | O|  |
+O| O| O|  |  |
+ |  |  |  |  |
+_______________________________
+Please pick the integer corresponding to your selected move: (1 to 8)
+
+1 :  (0, 1)
+2 :  (1, 0)
+3 :  (2, 0)
+4 :  (2, 1)
+5 :  (3, 1)
+6 :  (4, 0)
+7 :  (4, 2)
+8 :  (0, 3)
+
+Your move? (1 to 8)1
+Time elapsed, 25.1233248711
+
+Move Number, 3
+problem, 13 , total tree depth, 5
+1 , 86 , 140
+2 , 218 , 150
+3 , 380 , 603
+4 , 556 , 0
+Time elapsed, 2.92273712158
+
+Move Number, 4
+_______________________________
+O| O| X|  |  |
+ | X| O| O|  |
+ | X| X| O|  |
+X|  | X| O|  |
+ | X|  | O|  |
+O| O| O|  |  |
+ |  |  |  |  |
+_______________________________
+Please pick the integer corresponding to your selected move: (1 to 5)
+
+1 :  (1, 0)
+2 :  (2, 0)
+3 :  (4, 0)
+4 :  (4, 2)
+5 :  (0, 3)
+
+Your move? (1 to 5)5
+Time elapsed, 8.94711089134
+
+Move Number, 5
+problem, 13 , total tree depth, 3
+1 , 32 , 36
+2 , 36 , 0
+Time elapsed, 0.131544828415
+
+Move Number, 6
+_______________________________
+O| O|  | O|  |
+X| X| O| O|  |
+ | X| X| O|  |
+X|  | X| O|  |
+ | X|  | O|  |
+O| O| O|  |  |
+ |  |  |  |  |
+_______________________________
+Please pick the integer corresponding to your selected move: (1 to 3)
+
+1 :  (4, 0)
+2 :  (4, 2)
+3 :  (0, 2)
+
+Your move? (1 to 3)1
+Time elapsed, 9.6498041153
+
+Move Number, 7
+problem, 13 , total tree depth, 1
+Time elapsed, 0.0155909061432
+
+_______________________________
+O| O|  | O|  |
+X| X| O| O|  |
+ | X| X| O|  |
+X|  | X| O|  |
+O| X| X| O|  |
+O| O| O|  |  |
+ |  |  |  |  |
+_______________________________
+Final State
+_______________________________
+O| O|  | O|  |
+X| X| O| O|  |
+ | X| X| O|  |
+X|  | X| O|  |
+O| X| X| O|  |
+O| O| O|  |  |
+ |  |  |  |  |
+_______________________________

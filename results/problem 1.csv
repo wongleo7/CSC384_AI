@@ -1,0 +1,102 @@
+START!
+Move Number, 1
+problem, 1 , total tree depth, 6
+1 , 237 , 1074
+2 , 1234 , 827
+3 , 2035 , 7649
+4 , 7650 , 5285
+5 , 12204 , 0
+Time elapsed, 58.8289289474
+
+Move Number, 2
+_______________________________
+ |  |  |  | X|  |  |  |  |  |
+O| X| X| X|  | X| X| X| O|  |
+O| O| O| O|  | O| O| O| O|  |
+ |  |  |  |  |  |  |  |  |  |
+_______________________________
+Please pick the integer corresponding to your selected move: (1 to 11)
+
+1 :  (0, 0)
+2 :  (0, 1)
+3 :  (0, 2)
+4 :  (0, 3)
+5 :  (0, 5)
+6 :  (0, 6)
+7 :  (0, 7)
+8 :  (0, 8)
+9 :  (1, 4)
+10 :  (2, 4)
+11 :  (3, 4)
+
+Your move? (1 to 11)2
+Time elapsed, 22.2338299751
+
+Move Number, 3
+problem, 1 , total tree depth, 4
+1 , 146 , 417
+2 , 527 , 367
+3 , 891 , 0
+Time elapsed, 4.06532812119
+
+Move Number, 4
+_______________________________
+ | O|  |  | X|  | X|  |  |  |
+O| X| X| X|  | X| X| X| O|  |
+O| O| O| O|  | O| O| O| O|  |
+ |  |  |  |  |  |  |  |  |  |
+_______________________________
+Please pick the integer corresponding to your selected move: (1 to 8)
+
+1 :  (0, 0)
+2 :  (0, 2)
+3 :  (0, 3)
+4 :  (0, 7)
+5 :  (0, 8)
+6 :  (1, 4)
+7 :  (2, 4)
+8 :  (3, 4)
+
+Your move? (1 to 8)4
+Time elapsed, 22.6657438278
+
+Move Number, 5
+problem, 1 , total tree depth, 2
+1 , 77 , 0
+Time elapsed, 0.231266021729
+
+Move Number, 6
+_______________________________
+ | O| X|  | X|  | X| O|  |  |
+O| X| X| X|  | X| X| X| O|  |
+O| O| O| O|  | O| O| O| O|  |
+ |  |  |  |  |  |  |  |  |  |
+_______________________________
+Please pick the integer corresponding to your selected move: (1 to 5)
+
+1 :  (0, 0)
+2 :  (0, 8)
+3 :  (1, 4)
+4 :  (2, 4)
+5 :  (3, 4)
+
+Your move? (1 to 5)4
+Time elapsed, 9.20540809631
+
+Move Number, 7
+problem, 1 , total tree depth, 0
+Time elapsed, 0.0
+
+_______________________________
+ | O| X|  | X|  | X| O|  |  |
+O| X| X| X| X| X| X| X| O|  |
+O| O| O| O| O| O| O| O| O|  |
+ |  |  |  |  |  |  |  |  |  |
+_______________________________
+Final State
+_______________________________
+ | O| X|  | X|  | X| O|  |  |
+O| X| X| X| X| X| X| X| O|  |
+O| O| O| O| O| O| O| O| O|  |
+ |  |  |  |  |  |  |  |  |  |
+_______________________________

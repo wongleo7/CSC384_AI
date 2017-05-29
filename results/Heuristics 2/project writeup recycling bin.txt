@@ -1,0 +1,4 @@
+
+
+In order to call our game completed, we have encoded a couple terminal states. Our game is considered a loss when no more moves are available and the two eyes has yet been completed, or if the defending pieces is completely wiped off the board. The goal of Tsumego is to have the defender secure it’s position on the board by creating 2 eyes which are impenetrable and if a whole team has been wiped, it is definitely gone way off track and is an undesirable state. Our Tsumego problem is considered solved when two true eyes are created by the defender, this will in turn return a heuristics value of 100 to the function which will be sent up the alpha-beta tree. The function returns 0 if it reaches the terminal depth without success. 
+‘’’

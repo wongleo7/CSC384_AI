@@ -1,0 +1,142 @@
+#needs to know which players turn it is
+def vitalpoint(state):
+    #check for spots that have potential to be eyes
+    vitals = {}
+    weight2 = 1
+    weight3 = 1
+    
+    #print "going through moves: ", state.moves
+    for spot in state.moves:
+        #for each spot, we want to check if the surrounding are of the same color
+        piececolor = 0
+        tempspots = []
+        up = (spot[0] + 1, spot[1]); down = (spot[0] -1 , spot[1])
+        left = (spot[0], spot[1] - 1); right = (spot[0], spot[1] + 1)
+        
+        checkspots = [up, down, left, right]
+        #print 'checkspots:', checkspots
+        #print 'Def:', state.board['Def']
+        #print 'Att:', state.board['Att']
+        #print 'Avail:', state.board['Avail']
+        for x in copy.copy(checkspots):
+            #print "start checkspots loop", x
+            if ((x[0] < 0) or (x[1] < 0)):
+                #print 'cut:', x
+                checkspots.remove(x)
+            #print '1'
+            elif (x in state.board['Def']): #2 is Att color
+                #print "IN DEF!", x
+             #   print '2'
+                if (piececolor != 2): #assign color and append coordinates
+              #      print '3'
+                    piececolor = 1
+                    checkspots.remove(x)
+            elif (x in state.board['Att']):
+                #print "IN ATt!", x
+                if (piececolor != 1):
+                    piececolor = 2
+               #     print "before checkspots: ", checkspots
+                    checkspots.remove(x)
+                #    print "after checkspots: ", checkspots
+            elif (x in state.board['Avail']): #in Avail
+                #print "IN ELSE!", x
+                tempspots.append(x)
+                checkspots.remove(x)
+        if len(checkspots) == 0:
+            #tempspots is the number of stones needed to complete an eye (just 4 pieces surrounding an empty)
+            if (len(tempspots) in vitals):
+                print "before:", vitals[len(tempspots)]
+                print 'do i want this??: ', vitals[len(tempspots)] + tempspots
+                vitals[len(tempspots)] = vitals[len(tempspots)] + tempspots
+            else: 
+                vitals[len(tempspots)]= tempspots
+            print "after:", vitals[len(tempspots)]
+            #print "LENGTH!!!", len(tempspots)
+            print 'added:', tempspots
+        
+        
+    #weighted
+    totalvitals = []
+    if (not(2 in vitals)):
+        vitalsall = vitals[3]
+        for entry in set(vitalsall):
+            totalvitals.append((entry, (vitals[3].count(entry) * weight3)))
+    elif (not(3 in vitals)):
+        vitalsall = vitals[2]
+        for entry in set(vitalsall):
+            totalvitals.append((entry, (vitals[2].count(entry) * weight2)))
+    else:
+        vitalsall = vitals[2] + vitals[3]
+        for entry in set(vitalsall):
+            totalvitals.append((entry, (vitals[2].count(entry) * weight2) + 
+                                        (vitals[3].count(entry) * weight3)))
+    
+    totalvitals.sort(key = lambda x: -x[1])
+    print vitalsall
+    return totalvitals
+    
+    
+    #-----------------------------------------------------------------------------------------------
+    
+    
+def vitalpointplayers(state, player):
+    #eyes.append({'Group': group, 'EyeType': eyeType, 'FalseSpots': falseSpotCount})
+    vitals = {2:[], 3:[]};   weight2 = 1;    weight3 = 1;     
+    notplayer = if_(player == 'Att', 'Def', 'Att')
+    # if not('Group' in state.eyes):
+    # state.eyes['Group'] = []]
+    alleyes = []
+
+    if state.eyes:
+        for i in state.eyes:
+            alleyes += i['Group']
+    
+    for spot in state.moves:
+        #for each spot, we want to check if the surrounding are of the same color
+        if not(spot in alleyes):
+            diagcount = 0;  piececolor = 0;   tempspots = []
+
+            up = (spot[0] + 1, spot[1]);   down = (spot[0] -1 , spot[1])
+            left = (spot[0], spot[1] - 1); right = (spot[0], spot[1] + 1)
+            
+            topleft = (spot[0]-1, spot[1]-1);    topright = (spot[0]-1, spot[1]+1)
+            bottomleft = (spot[0]+1, spot[1]-1); bottomright = (spot[0]+1, spot[1]+1)
+            
+            checkspots = [up, down, left, right]
+            diagspots = [topleft, topright, bottomleft, bottomright]
+            
+            falseref = countDiagNeighborSpots(spot)
+            for x in copy.copy(checkspots):
+                if (x in alleyes): #this shouldnt actually be possible.
+                    checkspots.remove(x) #altho it is an eye, it would be our eye if pass
+                elif ((x[0] < 0) or (x[1] < 0)):
+                    checkspots.remove(x)
+                elif (x in state.board[player]): #in player color
+                        checkspots.remove(x)     #by the end if all is removed, then we good
+                elif (x in state.board['Avail']):#in Avail
+                    tempspots.append(x)          #save all avails for if all tests pass
+                    checkspots.remove(x)
+            for x in diagspots:                  #diagonal checks
+                if (x in state.board[notplayer]):#other player, count these
+                    diagcount += 1
+                    
+            if (len(checkspots) == 0) and (diagcount < falseref['False']):
+                if (len(tempspots) in vitals):
+                    vitals[len(tempspots)] = vitals[len(tempspots)] + tempspots
+                else: 
+                    vitals[len(tempspots)]= tempspots
+                
+    #weighted
+    totalvitals = []
+    vitalsall = vitals[2] + vitals[3]
+    for entry in set(vitalsall):
+        totalvitals.append((entry, (vitals[2].count(entry) * weight2) + 
+                                    (vitals[3].count(entry) * weight3)))
+    totalvitals.sort(key = lambda x: -x[1])
+    #print vitalsall
+    #return totalvitals
+    #or to return a sorted list of recommendations with no score: 
+    listvitals = map(lambda x: x[0], totalvitals)
+    listvitals.extend(list(set(state.moves) - set(listvitals)))
+    return listvitals
+    

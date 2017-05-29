@@ -1,0 +1,149 @@
+class GoGame(Game):               
+    ''' State should contain the player, moves (possible moves), liberty (*utility*--same as score), board, connectedpieces
+        - .initial function defines
+        
+        Functions:  
+            update_spaces: null -> null
+                - Run this to check for valid move (run terminal_test?)
+                - and update to check game status
+                - Update pieces in the game
+                    - Checks if connectedPieces merges can happen
+            make_move: int x, int y -> boolean
+                - checks if move is good
+            terminal_test: null -> boolean
+                - checks if the game is done (i.e. no more moves)
+                - updates possible_moves
+            draw_graph: null -> null
+                - displays current game grid
+            successor: Game, int x, int y -> Game
+                - put in a move and generates new Game object (successor)
+    '''
+    '''
+        initpieces: array of [int, int]
+        boardwidth: int
+        boardheight: int
+    '''
+    '''initialize fn********************************************************************************'''
+    
+    survivalState = None
+    def __init__(self, player, moves, board, connectedPieces, survivalState):
+        '''
+            initialize all state variables here
+        '''
+        self.player = player
+        self.moves = moves
+        self.board = board
+        self.connectedPieces = connectedPieces
+        self.survivalState = survivalState
+        
+    def actions(self):
+        ''' returns the allowable moves, this is predefined???? '''
+        return self.moves
+    
+    def copy(self):
+        cplayer = copy.deepcopy(self.player)
+        cmoves = copy.deepcopy(self.moves)
+        cboard = copy.deepcopy(self.board)
+        cconnectedPieces = copy.deepcopy(self.connectedPieces)
+        csurvivalState = copy.deepcopy(self.survivalState)
+        return GoGame(cplayer, cmoves, cboard, cconnectedPieces, csurvivalState)
+    
+    '''successor fn********************************************************************************'''
+    def result(self, move):
+        #print "successor with:"
+        #print self.board['Avail']
+        #print self.moves
+        #print move
+        ''' successor function, takes a move and returns a state '''
+        return generateSuccessors(self.copy(), move)
+        
+    #do not use utility, use heuristics fn instead
+    def utility(self, player):
+        "Return the value of this final state to player."
+        '''  print the board        '''
+        self.display()
+        #score = 0
+        #for i in self.connectedPieces[player]:
+        #    if i[1] == []:
+        #        score += 1
+        #return score
+        return 0
+    
+    '''terminal test********************************************************************************'''
+    def terminal_test(self):
+        '''checks if actions is empty. if it is empty, then we are terminal. 
+        or if we reach survival state is true. '''
+        if ((not (self.moves)) or (survivalheur(self)) or (wipedout(self))):
+        #if ((not (self.moves)) or (wipedout(self))):
+            return True
+        else: 
+            return False
+        '''alternatively, 'return self.actions(self, state)' '''
+
+    '''returns a player'''
+    def to_move(self):
+        "Return the player whose move it is in this state."
+        return if_(self.player == 'Att', 'Def', 'Att')
+
+    def display(self):
+        "Print or otherwise display the state."
+        x = 0
+        y = 0
+        disp = []
+        attconnect = self.connectedPieces['Att']
+        defconnect = self.connectedPieces['Def']
+        attpieces = []
+        defpieces = []
+
+        for i in attconnect:
+            for j in i[0]:
+                attpieces.append(j)
+          
+        for i in defconnect:
+            for j in i[0]:
+                defpieces.append(j)
+
+        for i in attpieces:
+            if i[0] > x:
+                x = i[0]
+            if i[1] > y:
+                y = i[1]
+          
+        for i in defpieces:
+            if i[0] > x:
+                x = i[0]
+            if i[1] > y:
+                y = i[1]
+
+        for i in xrange(x+2): 
+            disp.append([]) 
+            for j in xrange(y+2): 
+                disp[i].append(0)
+
+        for i in attpieces:
+            disp[i[0]][i[1]] = 1 #white
+        for i in defpieces:
+            disp[i[0]][i[1]] = 2 #black
+
+        #for i in disp:
+        #    print i
+
+        #this is printboard fn, to be split off
+        print '_______________________________'
+        for i in disp:
+            for j in i:
+                if j == 0: #space
+                    #print u'\u2009' + '\t|',
+                    print ' ' + '|',
+                if j == 1: #white
+                    #print u'\u25FB' + '\t|',
+                    print 'O' + '|',
+                if j == 2: #black
+                    #print u'\u25FC' + '\t|',
+                    print 'X' + '|',
+            print ''
+        print '_______________________________'
+
+    def __repr__(self):
+        return '<%s>' % self.__class__.__name__
+    

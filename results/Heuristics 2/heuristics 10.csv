@@ -1,0 +1,60 @@
+START!
+Move Number, 1
+problem, 10 , total tree depth, 5
+1 , 11 , 25
+2 , 5 , 16
+3 , 20 , 0
+4 , 20 , 0
+Time elapsed, 0.186556816101
+
+Move Number, 2
+_______________________________
+ |  |  |  |  |  |
+ | O| O|  |  |  |
+ | X| O|  | O|  |
+ | X| X| O|  |  |
+ | X| X| O|  |  |
+X|  | X|  | O|  |
+O| X| X|  | O|  |
+ | O| O| O|  |  |
+ |  |  |  |  |  |
+_______________________________
+Please pick the integer corresponding to your selected move: (1 to 6)
+
+1 :  (0, 0)
+2 :  (1, 0)
+3 :  (2, 0)
+4 :  (3, 0)
+5 :  (4, 0)
+6 :  (7, 0)
+
+Your move? (1 to 6)3
+Time elapsed, 10.8858661652
+
+Move Number, 3
+problem, 10 , total tree depth, 0
+Time elapsed, 0.0
+
+_______________________________
+ |  |  |  |  |  |
+ | O| O|  |  |  |
+O| X| O|  | O|  |
+X| X| X| O|  |  |
+ | X| X| O|  |  |
+X|  | X|  | O|  |
+O| X| X|  | O|  |
+ | O| O| O|  |  |
+ |  |  |  |  |  |
+_______________________________
+Final State
+_______________________________
+ |  |  |  |  |  |
+ | O| O|  |  |  |
+O| X| O|  | O|  |
+X| X| X| O|  |  |
+ | X| X| O|  |  |
+X|  | X|  | O|  |
+O| X| X|  | O|  |
+ | O| O| O|  |  |
+ |  |  |  |  |  |
+_______________________________

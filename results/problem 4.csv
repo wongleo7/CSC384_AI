@@ -1,0 +1,110 @@
+START!
+Move Number, 1
+-100
+problem, 4 , total tree depth, 8
+1 , 135 , 195
+2 , 347 , 265
+3 , 693 , 727
+4 , 921 , 609
+5 , 1867 , 936
+6 , 1758 , 3003
+7 , 2719 , 0
+Time elapsed, 18.6758220196
+
+Move Number, 2
+_______________________________
+ | O|  | X|  |  | X| O|  |
+ | O| X|  |  | X| X| O|  |
+ |  | O| X| X|  | X| O|  |
+ | O|  | O| O|  | X| O|  |
+ |  |  |  |  | O| O|  |  |
+ |  |  |  |  |  |  |  |  |
+_______________________________
+Please pick the integer corresponding to your selected move: (1 to 7)
+
+1 :  (0, 2)
+2 :  (0, 4)
+3 :  (0, 5)
+4 :  (1, 3)
+5 :  (1, 4)
+6 :  (2, 5)
+7 :  (3, 5)
+
+Your move? (1 to 7)7
+Time elapsed, 128.18759799
+
+Move Number, 3
+-100
+problem, 4 , total tree depth, 6
+1 , 49 , 63
+2 , 65 , 30
+3 , 106 , 50
+4 , 106 , 71
+5 , 68 , 0
+Time elapsed, 0.866726875305
+
+Move Number, 4
+_______________________________
+ | O|  | X| X|  | X| O|  |
+ | O| X|  |  | X| X| O|  |
+ |  | O| X| X|  | X| O|  |
+ | O|  | O| O| O| X| O|  |
+ |  |  |  |  | O| O|  |  |
+ |  |  |  |  |  |  |  |  |
+_______________________________
+Please pick the integer corresponding to your selected move: (1 to 4)
+
+1 :  (0, 2)
+2 :  (1, 3)
+3 :  (1, 4)
+4 :  (2, 5)
+
+Your move? (1 to 4)2
+Time elapsed, 20.974656105
+
+Move Number, 5
+-100
+problem, 4 , total tree depth, 4
+1 , 11 , 3
+2 , 11 , 0
+3 , 2 , 0
+Time elapsed, 0.0624690055847
+
+Move Number, 6
+_______________________________
+ | O| X| X| X|  | X| O|  |
+ | O| X| O|  | X| X| O|  |
+ |  | O| X| X|  | X| O|  |
+ | O|  | O| O| O| X| O|  |
+ |  |  |  |  | O| O|  |  |
+ |  |  |  |  |  |  |  |  |
+_______________________________
+Please pick the integer corresponding to your selected move: (1 to 1)
+
+1 :  (2, 5)
+
+Your move? (1 to 1)1
+Time elapsed, 17.6102259159
+
+Move Number, 7
+-100
+problem, 4 , total tree depth, 1
+Time elapsed, 0.0
+
+_______________________________
+ | O| X| X| X|  | X| O|  |
+ | O| X|  | X| X| X| O|  |
+ |  | O| X| X| O| X| O|  |
+ | O|  | O| O| O| X| O|  |
+ |  |  |  |  | O| O|  |  |
+ |  |  |  |  |  |  |  |  |
+_______________________________
+Final State
+_______________________________
+ | O| X| X| X|  | X| O|  |
+ | O| X|  | X| X| X| O|  |
+ |  | O| X| X| O| X| O|  |
+ | O|  | O| O| O| X| O|  |
+ |  |  |  |  | O| O|  |  |
+ |  |  |  |  |  |  |  |  |
+_______________________________

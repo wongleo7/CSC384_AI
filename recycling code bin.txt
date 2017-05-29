@@ -1,0 +1,316 @@
+
+def allbut(dpieces, apieces, dim):
+  gavail = []
+  for i in xrange(dim[0]):
+    for j in xrange(dim[1]):
+      gavail.append((i,j))
+  for i in dpieces:
+    if i in gavail:
+      gavail.remove(i)
+  for i in apieces:
+    if i in gavail:
+      gavail.remove(i)
+  return gavail
+  
+def printgame(dpieces, apieces, dim):
+  disp = []
+  
+  for i in xrange(dim[1]): 
+    disp.append([]) 
+    for j in xrange(dim[0]): 
+      disp[i].append(0)
+  
+  for i in dpieces:
+      disp[i[0]][i[1]] = 1 #white
+  for i in apieces:
+      disp[i[0]][i[1]] = 2 #black
+  
+  
+  for i in disp:
+      print i
+  
+  #this is printboard fn, to be split off
+  print '_______________________________'
+  for i in disp:
+    for j in i:
+      if j == 0: #space
+        print u'\u2009' + ' |',
+      if j == 1: #white
+        print u'\u25FB' + '|',
+      if j == 2: #black
+        print u'\u25FC' + '|',
+    print ''
+  print '_______________________________'
+  
+  
+  
+  
+  
+  
+  
+  
+#Checks for spots that have a greater potential to create an eye. 
+#We prioritize those spots on the queue
+#Takes in a state, player, and returns a list of moves retaining all the moves that
+# is contained in state.moves
+def vitpoint(state):
+    player = state.player
+    #eyes.append({'Group': group, 'EyeType': eyeType, 'FalseSpots': falseSpotCount})
+    vitals = {2:[], 3:[]};   weight2 = 1;    weight3 = 1;     
+    notplayer = if_(player == 'Att', 'Def', 'Att')
+    # if not('Group' in state.eyes):
+    # state.eyes['Group'] = []]
+    alleyes = []
+
+    if state.eyes:
+        for i in state.eyes:
+            alleyes += i['Group']
+    
+    for spot in state.moves:
+        #for each spot, we want to check if the surrounding are of the same color
+        if not(spot in alleyes):
+            diagcount = 0;  piececolor = 0;   tempspots = []
+
+            up = (spot[0] + 1, spot[1]);   down = (spot[0] -1 , spot[1])
+            left = (spot[0], spot[1] - 1); right = (spot[0], spot[1] + 1)
+            
+            topleft = (spot[0]-1, spot[1]-1);    topright = (spot[0]-1, spot[1]+1)
+            bottomleft = (spot[0]+1, spot[1]-1); bottomright = (spot[0]+1, spot[1]+1)
+            
+            checkspots = [up, down, left, right]
+            diagspots = [topleft, topright, bottomleft, bottomright]
+            
+            falseref = countDiagNeighborSpots(spot)
+            for x in copy.copy(checkspots):
+                if (x in alleyes): #this shouldnt actually be possible.
+                    checkspots.remove(x) #altho it is an eye, it would be our eye if pass
+                elif ((x[0] < 0) or (x[1] < 0)):
+                    checkspots.remove(x)
+                elif (x in state.board[player]): #in player color
+                        checkspots.remove(x)     #by the end if all is removed, then we good
+                elif (x in state.board['Avail']):#in Avail
+                    tempspots.append(x)          #save all avails for if all tests pass
+                    checkspots.remove(x)
+            for x in diagspots:                  #diagonal checks
+                if (x in state.board[notplayer]):#other player, count these
+                    diagcount += 1
+                    
+            if (len(checkspots) == 0) and (diagcount < falseref['False']):
+                if (len(tempspots) in vitals):
+                    vitals[len(tempspots)] = vitals[len(tempspots)] + tempspots
+                else: 
+                    vitals[len(tempspots)]= tempspots
+                
+    #weighted
+    totalvitals = []
+    vitalsall = vitals[2] + vitals[3]
+    for entry in set(vitalsall):
+        totalvitals.append((entry, (vitals[2].count(entry) * weight2) + 
+                                    (vitals[3].count(entry) * weight3)))
+    totalvitals.sort(key = lambda x: -x[1])
+    #print vitalsall
+    #return totalvitals
+    #or to return a sorted list of recommendations with no score: 
+    listvitals = map(lambda x: x[0], totalvitals)
+    listvitals.extend(list(set(state.moves) - set(listvitals)))
+    return totalvitals
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    '''-------------------------base test case --------------------------------'''
+    dpieces0 = [(1,0), (1,2), (1,3), (2,3), (3,0), (3,1), (3,2)]
+    apieces0 = [(0,1), (0,3), (0,4), (1,4), (2,4), (3,3), (3,4), (4,0), (4,1), (4,2)]
+    avail0 = [(0,0), (0,2), (1,1), (2,0), (2,1), (2,2)]
+    dim0 = (6,6)
+    game0 = [apieces0, dpieces0, avail0, dim0]
+    
+    '''------------------------test case d1 ------------------------------'''
+    apiecesd1 = [(1,1),(1,2),(1,3),(2,0),(2,2),(3,1),(3,3),(4,3)]
+    dpiecesd1 = [(2,3),(2,4),(2,5),(3,2),(3,4),(4,1),(4,2)]
+    availd1 = [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5), (0, 6), 
+              (1, 0), (1, 4), (1, 5), (1, 6), 
+              (2, 6), 
+              (3, 0), (3, 5), (3, 6), 
+              (4, 0), (4, 4), (4, 5), (4, 6), 
+              (5, 0), (5, 1), (5, 2), (5, 3), (5, 4)]
+    dimd1 = (6,7)
+    gamed1 = [dpiecesd1, apiecesd1, availd1, dimd1]
+    
+    '''-------------------------test case s2 --------------------------------'''
+    dpieceds2 = [(0,0),(1,1),(1,2),(1,3),(2,3),(3,0),(3,3),(4,2),(5,2),(6,2),(7,1),(8,2)]
+    apieceds2 = [(1,0),(2,0),(2,1),(2,2),(4,1),(5,1),(6,0),(6,1)]
+    dims2 = (10,5)
+    avails2 = [(0, 1), (0, 2), (0, 3), (0, 4), 
+                (1, 4), 
+                (2, 4), 
+                (3, 1), (3, 2), (3, 4), 
+                (4, 0), (4, 3), (4, 4), 
+                (5, 0), (5, 3), (5, 4), 
+                (6, 3), (6, 4), 
+                (7, 0), (7, 2), (7, 3), 
+                (8, 0), (8, 1), (8, 3), 
+                (9, 0), (9, 1), (9, 2), (9, 3)]
+    games2 = [dpieceds2, apieceds2, avails2, dims2]
+    
+    '''---------------------test case 1 --------------------'''
+    dpieces1 = [(0,1),(1,2),(1,3),(2,1),(3,1),(3,2),(4,3),(5,3),(6,1),(6,2)]
+    apieces1 = [(1,1),(1,4),(2,2),(2,3),(2,4),(3,3),(4,1),(4,2),(5,1)]
+    dims1 = (8,6)
+    avails1 = [(0, 0), (0, 2), (0, 3), (0, 4), (0, 5), 
+                (1, 0), (1, 5), 
+                (2, 0), (2, 5), 
+                (3, 0), (3, 4), (3, 5),
+                (4, 0), (4, 4), (4, 5),
+                (5, 0), (5, 2), (5, 4),
+                (6, 0), (6, 3), (6, 4), 
+                (7, 0), (7, 1), (7, 2), (7, 3)]
+    games1 = [apieces1, dpieces1, avails1, dims1]
+    
+    eyeSpots = [(x,y) for x in range(3) for y in range(3)]
+
+    gamestate1 = generateInitialState(game0[0], game0[1], game0[2], eyeSpots, game0[3])
+    
+    play_game(gamestate1, alphabeta_player, query_player)
+    #print alphabeta_search(gamestate1)
+    
+    ''' -------------------easy 5 on Tsumego Pro app----------------------------`'''
+    #black
+    dpiecese5 = [(1,2),
+                 (2,2),
+                 (3,1),
+                 (4,1)]
+    #white
+    apiecese5 = [(1,3),(1,5),
+                 (2,3),
+                 (3,2),
+                 (4,2),
+                 (5,1),
+                 (6,2),
+                 (7,1)]
+    dimse5 = (9,7)
+    availse5 = [(0,0),(0,1),(0,2),(0,3),(0,4),
+                (1,0),(1,1),
+                (2,0),(2,1),
+                (3,0),
+                (4,0),
+                (5,0),
+                (6,0),(6,1),
+                (7,1)]
+    eyese5 = [(0,0),(0,1),(0,2),
+                (1,0),(1,1),
+                (2,0),(2,1),
+                (3,0),(4,0)]    
+    easy5 = [dpiecese5, apiecese5, availse5, eyese5, dimse5]
+    easy5game = generateInitialState(easy5[0], easy5[1], easy5[2], easy5[3], easy5[4])
+    
+    #play_game(easy5game, alphabeta_player, query_player)
+    '''  '''
+    
+    '''---------------------------test vital points------------------------------------'''
+    apiecesv = [(1,2), (1,5), (2,3), (2,5), (3,3)]
+    dpiecesv = [(1,6), (2,0), (2,1), (2,6), (3,2), (3,5), (3,6), (4,3), (4,4)]
+    availv = [(0,0), (0,1), (0,2), (0,3), (0,4), (0,5), (0,6), (1,0), (1,1), (1,3), (1,4), (2,4), (3,4)]
+    eyeSpotstest = [(0,1), (0,2), (0,3), (0,4), (0,5), (0,6), (1,1), (1,3), (1,4), (2,2), (2,4), (3,4)]
+    dimv = (5,7)
+    vitaltest = [dpiecesv, apiecesv, availv, eyeSpotstest, dimv]
+    gamevitaltest = generateInitialState(vitaltest[0], vitaltest[1], vitaltest[2], vitaltest[3], vitaltest[4])
+    #print 'gamevitaltest:', vitalpoint(gamevitaltest)
+    #state = 
+    play_game(gamevitaltest, alphabeta_player, query_player)
+    #state.display()
+    
+    '''---------------------------test vital points 2-----------------------------------'''
+    apiecesv2 = [(0,1),(1,2), (1,4), (1,5), (2,3), (2,5), (3,3)]
+    dpiecesv2 = [(0,3), (1,6), (2,0), (2,1), (2,6), (3,2), (3,5), (3,6), (4,3), (4,4)]
+    availv2 = [(0,2), (0,4), (0,5), (0,6), (1,3), (2,4), (3,4)]
+    eyeSpotstest2 = [(0,2), (0,4), (0,5), (0,6), (1,3), (1,4), (2,4), (3,4)]
+    dimv2 = (5,7)
+    vitaltest2 = [dpiecesv2, apiecesv2, availv2, eyeSpotstest2, dimv2]
+    gamevitaltest2 = generateInitialState(vitaltest2[0], vitaltest2[1], vitaltest2[2], vitaltest2[3], vitaltest2[4])
+    #print 'gamevitaltest:', vitalpoint(gamevitaltest2)
+    #play_game(gamevitaltest, alphabeta_player, query_player)
+    
+    '''------------------------------simple tree test------------------------------------'''
+    #black
+    dpiecestest = [(0,3), (1,0), (1,1), (1,2), (1,3)]
+    #white
+    apiecestest = [(0,4), (1,4), (2,0), (2,1), (2,2), (2,3), (2,4)]
+    dimstest = (3,5)
+    availstest = [(0,0), (0,1), (0,2)]
+    eyeSpotstest = [(0,0), (0,1), (0,2)]
+    gametest = [apiecestest, dpiecestest, availstest, eyeSpotstest, dimstest]
+    
+    gamestatetest = generateInitialState(gametest[0], gametest[1], gametest[2], gametest[3], gametest[4])
+    
+    # print 'gamestate1', vitalpoint(gamestate1)
+    # print 'gamestate1', vitalpoint(gamestate1)
+    
+    #play_game(gamestatetest, alphabeta_player, query_player)
+    
+    '''
+    ---------------------------------------EASY 12--------------------------------------------
+    '''
+    #e12 with extra piece (2,3) -> (1,3)
+    #black
+    dpiecese12 = [(0,5),
+                (1,0),(1,1),(1,5),
+                (2,1),(2,5),
+                (3,0),(3,5),
+                (4,0),(4,4),(4,5),
+                (5,1),(5,4)]
+    #white
+    apiecese12 = [(0,1),(0,4),
+                (1,2),(1,4),
+                (2,2),(1,3),(2,4),
+                (3,1),(3,4),
+                (4,1)]
+    dimse12 = (7,7)
+    availse12 = [(0,0),(0,2),(0,3),
+                 (2,3),
+                 (2,0),
+                 (3,2),(3,3),
+                 (4,2),(4,3),
+                 (5,2),(5,3)]
+    eyese12 = [(0,0),(0,2),(0,3),
+                 (1,3),
+                 (2,0),(1,3),
+                 (3,2),(3,3)]
+    gameteste12 = [apiecese12, dpiecese12, availse12, eyese12, dimse12]
+          
+    gamestatee12 = generateInitialState(gameteste12[1], gameteste12[0], 
+                        gameteste12[2], gameteste12[3], gameteste12[4])
+    
+    # print 'gamestatee12', vitalpoint(gamestate1)
+    
+    #state = play_game(gamestate1, alphabeta_player, query_player)
+    #state.display()
+    
+    
+    
+    
+    
+    '''
+    connectedPieces:
+    {'Att': [([(1, 1)], [(1, 0), (1, 2), (2, 1)]), 
+                ([(2, 2)], [(2, 1), (2, 3), (3, 2), (1, 2)])], 
+        'Def': [([(3, 3), (0, 1), (0, 0), (0, 2), (0, 3), (0, 4), (1, 4), (2, 4), (3, 4)], [(3, 2), 
+        (4, 3), (2, 3), (1, 0), (1, 2), (1, 3), (0, 5), (1, 5), (2, 5), (3, 5), (4, 4)]), 
+        ([(4, 0), (4, 1), (4, 2), (3, 0), (2, 0)], 
+        [(5, 0), (5, 1), (3, 1), (4, 3), (5, 2), (3, 2), (2, 1), (1, 0)])]}
+    '''
+    

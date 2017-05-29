@@ -1,0 +1,29 @@
+basic 27 - depth 6 or so 
+basic 20 - 3 moves! woo
+intermediate 7... - 5 or 3, depending on white moves
+intermediate 22.. - 5, larger search space
+easy 18 - 5 moves 
+easy 46 - 5 moves
+easy 27 - 7 moves
+easy 39 - 5 moves
+4:
+5:
+6: 
+7: i22
+8:  e39, 
+
+
+
+
+4: (6)b19, (7)b20, (8)b28
+5: (9)b29, (10)b32, (11)b34, 
+6: (0) e4, (1) e5, (3)e18
+7: (12)e46, (13) i7, (14)i22
+8: (2) e13, (4)e22, (15)e39
+
+
+(5) e27
+
+
+ 2,3,4,5
+ 1,2,3
